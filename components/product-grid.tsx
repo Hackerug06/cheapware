@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Star, StarHalf, Filter } from "lucide-react"
@@ -12,78 +12,97 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { Slider } from "@/components/ui/slider"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
-
-// 1. Update the addToCart function to properly use the cart context
 import { useCart } from "@/components/cart-provider"
-
-// Mock product data
-const products = [
-  {
-    id: 1,
-    name: "Premium Refrigerator",
-    price: 899.99,
-    rating: 4.5,
-    image: "/placeholder.svg?height=300&width=300&text=Refrigerator",
-    category: "Refrigeration",
-    brand: "CoolTech",
-  },
-  {
-    id: 2,
-    name: "Front Load Washing Machine",
-    price: 649.99,
-    rating: 4.2,
-    image: "/placeholder.svg?height=300&width=300&text=Washing+Machine",
-    category: "Laundry",
-    brand: "CleanPro",
-  },
-  {
-    id: 3,
-    name: "Smart Microwave Oven",
-    price: 129.99,
-    rating: 4.7,
-    image: "/placeholder.svg?height=300&width=300&text=Microwave",
-    category: "Kitchen",
-    brand: "SmartCook",
-  },
-  {
-    id: 4,
-    name: "Electric Kettle",
-    price: 39.99,
-    rating: 4.0,
-    image: "/placeholder.svg?height=300&width=300&text=Kettle",
-    category: "Small Appliances",
-    brand: "QuickBoil",
-  },
-  {
-    id: 5,
-    name: "Dishwasher",
-    price: 549.99,
-    rating: 4.6,
-    image: "/placeholder.svg?height=300&width=300&text=Dishwasher",
-    category: "Kitchen",
-    brand: "CleanDish",
-  },
-  {
-    id: 6,
-    name: "Air Conditioner",
-    price: 499.99,
-    rating: 4.3,
-    image: "/placeholder.svg?height=300&width=300&text=AC",
-    category: "Climate Control",
-    brand: "CoolAir",
-  },
-]
+import { getProducts, type Product } from "@/lib/api"
 
 export default function ProductGrid() {
+  const [products, setProducts] = useState<Product[]>([])
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [sortBy, setSortBy] = useState("featured")
   const [priceRange, setPriceRange] = useState([0, 1000])
-  const [filteredProducts, setFilteredProducts] = useState(products)
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([])
 
-  // 2. In the ProductGrid component, add the cart context:
   const { addToCart } = useCart()
 
+  // Fetch products on component mount
+  useEffect(() => {
+    async function fetchProducts() {
+      setIsLoading(true)
+      try {
+        const data = await getProducts()
+        setProducts(data)
+        setFilteredProducts(data)
+      } catch (error) {
+        console.error("Failed to fetch products:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchProducts()
+  }, [])
+
+  // Apply filters and sorting
+  useEffect(() => {
+    let result = [...products]
+
+    // Filter by price
+    result = result.filter((product) => product.price >= priceRange[0] && product.price <= priceRange[1])
+
+    // Filter by categories
+    if (selectedCategories.length > 0) {
+      result = result.filter((product) => selectedCategories.includes(product.category))
+    }
+
+    // Filter by brands
+    if (selectedBrands.length > 0) {
+      result = result.filter((product) => selectedBrands.includes(product.brand))
+    }
+
+    // Apply sorting
+    switch (sortBy) {
+      case "price-low":
+        result.sort((a, b) => a.price - b.price)
+        break
+      case "price-high":
+        result.sort((a, b) => b.price - a.price)
+        break
+      case "rating":
+        result.sort((a, b) => (b.rating || 0) - (a.rating || 0))
+        break
+      case "newest":
+        // In a real app, you would sort by date added
+        // Here we just reverse the array as a placeholder
+        result.reverse()
+        break
+      default: // 'featured'
+        result.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
+        break
+    }
+
+    setFilteredProducts(result)
+  }, [products, sortBy, priceRange, selectedCategories, selectedBrands])
+
+  // Toggle category selection
+  const toggleCategory = (category: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category],
+    )
+  }
+
+  // Toggle brand selection
+  const toggleBrand = (brand: string) => {
+    setSelectedBrands((prev) => (prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]))
+  }
+
+  // Get unique categories and brands for filters
+  const categories = [...new Set(products.map((p) => p.category))]
+  const brands = [...new Set(products.map((p) => p.brand))]
+
   // Render star ratings
-  const renderRating = (rating: number) => {
+  const renderRating = (rating = 0) => {
     const stars = []
     const fullStars = Math.floor(rating)
     const hasHalfStar = rating % 1 >= 0.5
@@ -97,6 +116,27 @@ export default function ProductGrid() {
     }
 
     return stars
+  }
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <Card key={i} className="overflow-hidden">
+            <div className="h-48 bg-gray-200 animate-pulse" />
+            <CardContent className="p-4">
+              <div className="h-4 bg-gray-200 rounded animate-pulse mb-2" />
+              <div className="h-6 bg-gray-200 rounded animate-pulse mb-2" />
+              <div className="h-4 bg-gray-200 rounded animate-pulse mb-2 w-1/2" />
+              <div className="h-6 bg-gray-200 rounded animate-pulse" />
+            </CardContent>
+            <CardFooter className="p-4 pt-0">
+              <div className="h-10 bg-gray-200 rounded animate-pulse w-full" />
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    )
   }
 
   return (
@@ -135,9 +175,13 @@ export default function ProductGrid() {
                 <div>
                   <h3 className="font-medium mb-4">Categories</h3>
                   <div className="space-y-2">
-                    {["Kitchen", "Laundry", "Refrigeration", "Small Appliances", "Climate Control"].map((category) => (
+                    {categories.map((category) => (
                       <div key={category} className="flex items-center space-x-2">
-                        <Checkbox id={`category-${category}`} />
+                        <Checkbox
+                          id={`category-${category}`}
+                          checked={selectedCategories.includes(category)}
+                          onCheckedChange={() => toggleCategory(category)}
+                        />
                         <Label htmlFor={`category-${category}`}>{category}</Label>
                       </div>
                     ))}
@@ -146,9 +190,13 @@ export default function ProductGrid() {
                 <div>
                   <h3 className="font-medium mb-4">Brands</h3>
                   <div className="space-y-2">
-                    {["CoolTech", "CleanPro", "SmartCook", "QuickBoil", "CleanDish", "CoolAir"].map((brand) => (
+                    {brands.map((brand) => (
                       <div key={brand} className="flex items-center space-x-2">
-                        <Checkbox id={`brand-${brand}`} />
+                        <Checkbox
+                          id={`brand-${brand}`}
+                          checked={selectedBrands.includes(brand)}
+                          onCheckedChange={() => toggleBrand(brand)}
+                        />
                         <Label htmlFor={`brand-${brand}`}>{brand}</Label>
                       </div>
                     ))}
@@ -173,51 +221,62 @@ export default function ProductGrid() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
-          <Card key={product.id} className="overflow-hidden">
-            <Link href={`/products/${product.id}`}>
-              <div className="relative h-48 w-full">
-                <Image
-                  src={product.image || "/placeholder.svg"}
-                  alt={product.name}
-                  fill
-                  className="object-cover transition-transform hover:scale-105"
-                />
-              </div>
-            </Link>
-            <CardContent className="p-4">
-              <div className="flex items-center mb-2">
-                {renderRating(product.rating)}
-                <span className="text-sm text-gray-500 ml-1">({product.rating})</span>
-              </div>
-              <Link href={`/products/${product.id}`} className="hover:underline">
-                <h3 className="font-medium text-lg mb-1">{product.name}</h3>
+      {filteredProducts.length === 0 ? (
+        <div className="text-center py-12">
+          <h3 className="text-lg font-medium mb-2">No products found</h3>
+          <p className="text-gray-500">Try adjusting your filters to find what you're looking for.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {filteredProducts.map((product) => (
+            <Card key={product.id} className="overflow-hidden">
+              <Link href={`/products/${product.id}`}>
+                <div className="relative h-48 w-full">
+                  <Image
+                    src={product.image || "/placeholder.svg"}
+                    alt={product.name}
+                    fill
+                    className="object-cover transition-transform hover:scale-105"
+                  />
+                  {product.discount && (
+                    <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">
+                      {product.discount}
+                    </div>
+                  )}
+                </div>
               </Link>
-              <p className="text-gray-500 text-sm mb-2">{product.brand}</p>
-              <p className="font-bold text-lg">${product.price.toFixed(2)}</p>
-            </CardContent>
-            <CardFooter className="p-4 pt-0">
-              {/* 3. Replace the Button in the CardFooter with this working version: */}
-              <Button
-                className="w-full"
-                onClick={() =>
-                  addToCart({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image: product.image,
-                  })
-                }
-              >
-                Add to Cart
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+              <CardContent className="p-4">
+                <div className="flex items-center mb-2">
+                  {renderRating(product.rating)}
+                  <span className="text-sm text-gray-500 ml-1">({product.rating})</span>
+                </div>
+                <Link href={`/products/${product.id}`} className="hover:underline">
+                  <h3 className="font-medium text-lg mb-1">{product.name}</h3>
+                </Link>
+                <p className="text-gray-500 text-sm mb-2">{product.brand}</p>
+                <p className="font-bold text-lg">${product.price.toFixed(2)}</p>
+              </CardContent>
+              <CardFooter className="p-4 pt-0">
+                <Button
+                  className="w-full"
+                  onClick={() =>
+                    addToCart({
+                      id: product.id,
+                      name: product.name,
+                      price: product.price,
+                      image: product.image,
+                    })
+                  }
+                >
+                  Add to Cart
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
 
-        
+  
