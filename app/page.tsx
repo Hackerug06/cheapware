@@ -6,7 +6,7 @@ import dynamic from "next/dynamic"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-// 2. Use dynamic import with no SSR for the ProductGrid to ensure client-side rendering
+// Use dynamic import with no SSR for the ProductGrid to ensure client-side rendering
 const ProductGrid = dynamic(() => import("@/components/product-grid"), { ssr: false })
 const FeaturedProducts = dynamic(() => import("@/components/featured-products"), { ssr: false })
 import SearchSkeleton from "@/components/search-skeleton"
@@ -141,3 +141,4 @@ export default function Home() {
   )
 }
 
+  
