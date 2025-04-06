@@ -12,6 +12,7 @@ const products = [
     brand: "CoolTech",
     stock: 15,
     featured: true,
+    rating: 4.5,
   },
   {
     id: 2,
@@ -23,6 +24,7 @@ const products = [
     brand: "CleanPro",
     stock: 8,
     featured: true,
+    rating: 4.2,
   },
   {
     id: 3,
@@ -34,8 +36,44 @@ const products = [
     brand: "SmartCook",
     stock: 20,
     featured: false,
+    rating: 4.7,
   },
-  // Add more products as needed
+  {
+    id: 4,
+    name: "Electric Kettle",
+    description: "Fast-boiling electric kettle with auto shut-off",
+    price: 39.99,
+    image: "/placeholder.svg?height=300&width=300&text=Kettle",
+    category: "Small Appliances",
+    brand: "QuickBoil",
+    stock: 30,
+    featured: false,
+    rating: 4.0,
+  },
+  {
+    id: 5,
+    name: "Dishwasher",
+    description: "Energy-efficient dishwasher with multiple wash cycles",
+    price: 549.99,
+    image: "/placeholder.svg?height=300&width=300&text=Dishwasher",
+    category: "Kitchen",
+    brand: "CleanDish",
+    stock: 12,
+    featured: false,
+    rating: 4.6,
+  },
+  {
+    id: 6,
+    name: "Air Conditioner",
+    description: "Energy-efficient air conditioner with smart temperature control",
+    price: 499.99,
+    image: "/placeholder.svg?height=300&width=300&text=AC",
+    category: "Climate Control",
+    brand: "CoolAir",
+    stock: 10,
+    featured: false,
+    rating: 4.3,
+  },
 ]
 
 // GET all products or filter by query parameters
@@ -82,6 +120,17 @@ export async function GET(request: Request) {
     )
   }
 
+  // Get a specific product by ID
+  const id = searchParams.get("id")
+  if (id) {
+    const product = products.find((p) => p.id === Number.parseInt(id))
+    if (product) {
+      return NextResponse.json(product)
+    } else {
+      return NextResponse.json({ error: "Product not found" }, { status: 404 })
+    }
+  }
+
   return NextResponse.json(filteredProducts)
 }
 
@@ -105,14 +154,16 @@ export async function POST(request: Request) {
       // Set defaults for optional fields
       stock: newProduct.stock || 0,
       featured: newProduct.featured || false,
+      rating: newProduct.rating || 0,
     }
 
     products.push(productToAdd)
 
     return NextResponse.json(productToAdd, { status: 201 })
   } catch (error) {
+    console.error("Failed to add product:", error)
     return NextResponse.json({ error: "Failed to add product" }, { status: 500 })
   }
 }
 
-      
+    
