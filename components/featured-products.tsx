@@ -9,47 +9,31 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { useMobile } from "@/hooks/use-mobile"
 import { useCart } from "@/components/cart-provider"
-
-// Mock featured products
-const featuredProducts = [
-  {
-    id: 1,
-    name: "Smart Refrigerator",
-    description: "Energy-efficient smart refrigerator with touchscreen and Wi-Fi connectivity",
-    price: 1299.99,
-    image: "/placeholder.svg?height=300&width=300&text=Smart+Refrigerator",
-    discount: "15% OFF",
-  },
-  {
-    id: 2,
-    name: "Deluxe Washing Machine",
-    description: "High-capacity washing machine with multiple wash programs and steam function",
-    price: 799.99,
-    image: "/placeholder.svg?height=300&width=300&text=Washing+Machine",
-    discount: "10% OFF",
-  },
-  {
-    id: 3,
-    name: "Premium Dishwasher",
-    description: "Ultra-quiet dishwasher with smart sensors and efficient water usage",
-    price: 649.99,
-    image: "/placeholder.svg?height=300&width=300&text=Dishwasher",
-    discount: "20% OFF",
-  },
-  {
-    id: 4,
-    name: "Smart Oven",
-    description: "Multi-function smart oven with voice control and precision cooking",
-    price: 449.99,
-    image: "/placeholder.svg?height=300&width=300&text=Smart+Oven",
-    discount: "5% OFF",
-  },
-]
+import { getFeaturedProducts, type Product } from "@/lib/api"
 
 export default function FeaturedProducts() {
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
   const isMobile = useMobile()
   const { addToCart } = useCart()
+
+  // Fetch featured products
+  useEffect(() => {
+    async function fetchFeaturedProducts() {
+      setIsLoading(true)
+      try {
+        const data = await getFeaturedProducts()
+        setFeaturedProducts(data)
+      } catch (error) {
+        console.error("Failed to fetch featured products:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchFeaturedProducts()
+  }, [])
 
   const itemsPerPage = isMobile ? 1 : 3
   const totalPages = Math.ceil(featuredProducts.length / itemsPerPage)
@@ -64,17 +48,44 @@ export default function FeaturedProducts() {
 
   // Auto-scroll every 5 seconds
   useEffect(() => {
+    if (featuredProducts.length === 0) return
+
     const interval = setInterval(() => {
       nextSlide()
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [currentIndex])
+  }, [currentIndex, featuredProducts.length])
 
   const visibleProducts = featuredProducts.slice(
     currentIndex * itemsPerPage,
     currentIndex * itemsPerPage + itemsPerPage,
   )
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[1, 2, 3].map((i) => (
+          <Card key={i} className="overflow-hidden">
+            <div className="h-48 bg-gray-200 animate-pulse" />
+            <CardContent className="p-4">
+              <div className="h-4 bg-gray-200 rounded animate-pulse mb-2" />
+              <div className="h-6 bg-gray-200 rounded animate-pulse mb-2" />
+              <div className="h-4 bg-gray-200 rounded animate-pulse mb-2" />
+              <div className="h-6 bg-gray-200 rounded animate-pulse" />
+            </CardContent>
+            <CardFooter className="p-4 pt-0">
+              <div className="h-10 bg-gray-200 rounded animate-pulse w-full" />
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    )
+  }
+
+  if (featuredProducts.length === 0) {
+    return null
+  }
 
   return (
     <div className="relative">
