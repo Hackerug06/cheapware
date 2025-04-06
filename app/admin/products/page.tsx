@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { Edit, Trash2, Plus, Save, X } from "lucide-react"
+import { Edit, Trash2, Plus, Save, X, AlertCircle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,19 +12,9 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import AdminLayout from "@/components/admin-layout"
-
-type Product = {
-  id: number
-  name: string
-  description: string
-  price: number
-  image: string
-  category: string
-  brand: string
-  stock: number
-  featured: boolean
-}
+import { getProducts, createProduct, updateProduct, deleteProduct, type Product } from "@/lib/api"
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
@@ -42,20 +32,20 @@ export default function AdminProductsPage() {
     stock: 0,
     featured: false,
   })
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
 
   // Fetch products
   useEffect(() => {
-    const fetchProducts = async () => {
+    async function fetchProducts() {
+      setIsLoading(true)
+      setError(null)
       try {
-        const response = await fetch("/api/products")
-        if (response.ok) {
-          const data = await response.json()
-          setProducts(data)
-        } else {
-          console.error("Failed to fetch products")
-        }
+        const data = await getProducts()
+        setProducts(data)
       } catch (error) {
         console.error("Error fetching products:", error)
+        setError("Failed to load products. Please try again.")
       } finally {
         setIsLoading(false)
       }
@@ -70,11 +60,24 @@ export default function AdminProductsPage() {
   }
 
   const handleSaveEdit = async () => {
-    // In a real app, you would update the product via API
-    // For now, we'll just update the local state
-    setProducts(products.map((p) => (p.id === isEditing ? ({ ...p, ...editedProduct } as Product) : p)))
-    setIsEditing(null)
-    setEditedProduct({})
+    setError(null)
+    try {
+      if (isEditing === null) return
+
+      const updatedProduct = await updateProduct(isEditing, editedProduct)
+
+      // Update local state
+      setProducts(products.map((p) => (p.id === isEditing ? updatedProduct : p)))
+
+      setSuccess("Product updated successfully")
+      setTimeout(() => setSuccess(null), 3000)
+
+      setIsEditing(null)
+      setEditedProduct({})
+    } catch (error) {
+      console.error("Error updating product:", error)
+      setError("Failed to update product. Please try again.")
+    }
   }
 
   const handleCancelEdit = () => {
@@ -83,33 +86,53 @@ export default function AdminProductsPage() {
   }
 
   const handleDelete = async (id: number) => {
-    // In a real app, you would delete via API
-    // For now, we'll just update the local state
-    setProducts(products.filter((p) => p.id !== id))
+    setError(null)
+    try {
+      await deleteProduct(id)
+
+      // Update local state
+      setProducts(products.filter((p) => p.id !== id))
+
+      setSuccess("Product deleted successfully")
+      setTimeout(() => setSuccess(null), 3000)
+    } catch (error) {
+      console.error("Error deleting product:", error)
+      setError("Failed to delete product. Please try again.")
+    }
   }
 
   const handleAddNew = async () => {
-    // In a real app, you would add via API
-    // For now, we'll just update the local state
-    const newId = Math.max(...products.map((p) => p.id), 0) + 1
-    const productToAdd = {
-      id: newId,
-      ...newProduct,
-      price: Number(newProduct.price),
-    } as Product
+    setError(null)
+    try {
+      // Validate required fields
+      if (!newProduct.name || !newProduct.price) {
+        setError("Name and price are required fields")
+        return
+      }
 
-    setProducts([...products, productToAdd])
-    setIsAddingNew(false)
-    setNewProduct({
-      name: "",
-      description: "",
-      price: 0,
-      image: "/placeholder.svg?height=100&width=100&text=New+Product",
-      category: "",
-      brand: "",
-      stock: 0,
-      featured: false,
-    })
+      const addedProduct = await createProduct(newProduct as Omit<Product, "id">)
+
+      // Update local state
+      setProducts([...products, addedProduct])
+
+      setSuccess("Product added successfully")
+      setTimeout(() => setSuccess(null), 3000)
+
+      setIsAddingNew(false)
+      setNewProduct({
+        name: "",
+        description: "",
+        price: 0,
+        image: "/placeholder.svg?height=100&width=100&text=New+Product",
+        category: "",
+        brand: "",
+        stock: 0,
+        featured: false,
+      })
+    } catch (error) {
+      console.error("Error adding product:", error)
+      setError("Failed to add product. Please try again.")
+    }
   }
 
   return (
@@ -123,6 +146,21 @@ export default function AdminProductsPage() {
           </Button>
         </div>
 
+        {error && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        {success && (
+          <Alert className="mb-6 border-green-500 text-green-700">
+            <AlertTitle>Success</AlertTitle>
+            <AlertDescription>{success}</AlertDescription>
+          </Alert>
+        )}
+
         {isAddingNew && (
           <Card className="mb-8">
             <CardHeader>
@@ -132,7 +170,7 @@ export default function AdminProductsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <div className="mb-4">
-                    <Label htmlFor="new-name">Product Name</Label>
+                    <Label htmlFor="new-name">Product Name*</Label>
                     <Input
                       id="new-name"
                       value={newProduct.name}
@@ -150,7 +188,7 @@ export default function AdminProductsPage() {
                   </div>
 
                   <div className="mb-4">
-                    <Label htmlFor="new-price">Price ($)</Label>
+                    <Label htmlFor="new-price">Price ($)*</Label>
                     <Input
                       id="new-price"
                       type="number"
