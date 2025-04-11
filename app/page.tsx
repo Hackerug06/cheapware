@@ -87,29 +87,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Categories */}
-        <section className="py-12 bg-gray-50 rounded-lg mb-12">
-          <div className="px-4">
-            <h2 className="text-3xl font-bold mb-8">Shop by Category</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {["Kitchen", "Laundry", "Refrigeration", "Small Appliances"].map((category) => (
-                <a
-                  key={category}
-                  href={`/categories/${category.toLowerCase()}`}
-                  className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105"
-                >
-                  <div className="h-40 bg-gray-200 flex items-center justify-center">
-                    <span className="text-gray-500 font-medium">{category}</span>
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-lg">{category}</h3>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Products Grid */}
         <section className="mb-12">
           <h2 className="text-3xl font-bold mb-8">New Arrivals</h2>
@@ -241,4 +218,3 @@ export default function Home() {
     </div>
   )
 }
-
