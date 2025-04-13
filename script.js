@@ -1,49 +1,78 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile Menu Toggle
+    // Mobile Menu Toggle - Fixed
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navbar = document.querySelector('.navbar');
     
     mobileMenuBtn.addEventListener('click', function() {
         navbar.classList.toggle('active');
-        mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
+        this.querySelector('i').classList.toggle('fa-bars');
+        this.querySelector('i').classList.toggle('fa-times');
     });
     
-    // Search Bar Toggle
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.navbar a').forEach(link => {
+        link.addEventListener('click', () => {
+            navbar.classList.remove('active');
+            mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+            mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+        });
+    });
+    
+    // Search Functionality - Fixed
     const searchBtn = document.querySelector('.search-btn');
     const searchBar = document.querySelector('.search-bar');
     const closeSearch = document.querySelector('.close-search');
+    const searchInput = document.querySelector('.search-bar input');
+    const searchButton = document.querySelector('.search-button');
     
     searchBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        searchBar.classList.add('active');
+        searchBar.classList.toggle('active');
+        if (searchBar.classList.contains('active')) {
+            searchInput.focus();
+        }
     });
     
     closeSearch.addEventListener('click', function() {
         searchBar.classList.remove('active');
     });
     
-    // Smooth Scrolling for Navigation Links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            navbar.classList.remove('active');
-            mobileMenuBtn.querySelector('i').classList.remove('fa-times');
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
-        });
+    // Actual search functionality
+    searchButton.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
     });
     
-    // Product Data
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase();
+        if (searchTerm.trim() === '') return;
+        
+        const filteredProducts = products.filter(product => 
+            product.name.toLowerCase().includes(searchTerm) ||
+            product.category.toLowerCase().includes(searchTerm) ||
+            product.features.special.toLowerCase().includes(searchTerm)
+        );
+        
+        displayProducts(filteredProducts);
+        searchBar.classList.remove('active');
+        searchInput.value = '';
+    }
+    
+    // Shopping Cart - Fixed
+    let cartCount = 0;
+    const cartButtons = document.querySelectorAll('.add-to-cart');
+    const cartCountElement = document.querySelector('.cart-count');
+    
+    // Initialize cart count display
+    updateCartCount();
+    
+    function updateCartCount() {
+        cartCountElement.textContent = cartCount;
+    }
+    
+    // Product Data - Fixed (with corrected features structure)
     const products = [
         {
             id: 1,
@@ -179,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     ];
     
-    // Display Products
+    // Display Products - Fixed
     const productGrid = document.querySelector('.product-grid');
     const categoryFilter = document.getElementById('category-filter');
     const sortBy = document.getElementById('sort-by');
@@ -192,10 +221,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const comparisonTable = document.querySelector('.comparison-table');
     
     let selectedProducts = [];
-    let cartCount = 0;
     
     function displayProducts(productsToDisplay) {
         productGrid.innerHTML = '';
+        
+        if (productsToDisplay.length === 0) {
+            productGrid.innerHTML = '<p class="no-products">No products found matching your criteria.</p>';
+            return;
+        }
         
         productsToDisplay.forEach(product => {
             const productCard = document.createElement('div');
@@ -238,7 +271,21 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add event listeners to the new buttons
         document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', addToCart);
+            button.addEventListener('click', function(e) {
+                cartCount++;
+                updateCartCount();
+                
+                // Animation effect
+                const button = e.target.closest('button');
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> Added';
+                button.style.backgroundColor = '#2ecc71';
+                
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.style.backgroundColor = '';
+                }, 2000);
+            });
         });
         
         document.querySelectorAll('.add-to-compare').forEach(button => {
@@ -297,25 +344,9 @@ document.addEventListener('DOMContentLoaded', function() {
         displayProducts(filteredProducts);
     }
     
-    function addToCart(e) {
-        const productId = parseInt(e.target.getAttribute('data-id'));
-        cartCount++;
-        document.querySelector('.cart-count').textContent = cartCount;
-        
-        // Animation effect
-        const button = e.target;
-        button.innerHTML = '<i class="fas fa-check"></i> Added';
-        button.style.backgroundColor = '#2ecc71';
-        
-        setTimeout(() => {
-            button.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
-            button.style.backgroundColor = '';
-        }, 2000);
-    }
-    
     function toggleCompare(e) {
-        const productId = parseInt(e.target.getAttribute('data-id'));
-        const button = e.target;
+        const button = e.target.closest('button');
+        const productId = parseInt(button.getAttribute('data-id'));
         
         if (selectedProducts.includes(productId)) {
             // Remove from comparison
@@ -408,7 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
         filterAndSortProducts();
     }
     
-    // Initialize
+    // Initialize - Display all products by default
     displayProducts(products);
     
     // Event Listeners
@@ -433,17 +464,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const whatsappBtn = document.querySelector('.whatsapp-float');
     whatsappBtn.addEventListener('click', function(e) {
         // This will open WhatsApp with your number as specified in the HTML
-    });
-    
-    // Add WhatsApp click handler for "Add to Cart" buttons
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('add-to-cart') {
-            const productId = e.target.getAttribute('data-id');
-            const product = products.find(p => p.id == productId);
-            
-            // In a real implementation, you would add to cart and then
-            // the checkout button would link to WhatsApp with order details
-        }
     });
     
     // Sticky Header
