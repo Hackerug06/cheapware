@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile Menu Toggle - Fixed
+    // Mobile Menu Toggle
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navbar = document.querySelector('.navbar');
     
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Search Functionality - Fixed
+    // Search Functionality
     const searchBtn = document.querySelector('.search-btn');
     const searchBar = document.querySelector('.search-bar');
     const closeSearch = document.querySelector('.close-search');
@@ -60,19 +60,125 @@ document.addEventListener('DOMContentLoaded', function() {
         searchInput.value = '';
     }
     
-    // Shopping Cart - Fixed
-    let cartCount = 0;
-    const cartButtons = document.querySelectorAll('.add-to-cart');
+    // Cart System
+    const cartModal = document.querySelector('.cart-modal');
+    const cartItemsContainer = document.querySelector('.cart-items');
+    const cartTotal = document.querySelector('.total-price');
     const cartCountElement = document.querySelector('.cart-count');
+    const cartBtn = document.querySelector('.cart-btn');
+    const closeCartBtn = document.querySelector('.close-cart');
+    const whatsappCheckoutBtn = document.querySelector('.whatsapp-checkout');
     
-    // Initialize cart count display
+    let cart = [];
+    let cartCount = 0;
+    
+    // Initialize cart
     updateCartCount();
     
+    // Cart toggle
+    cartBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        cartModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        renderCartItems();
+    });
+    
+    closeCartBtn.addEventListener('click', function() {
+        cartModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+    
+    window.addEventListener('click', function(e) {
+        if (e.target === cartModal) {
+            cartModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
     function updateCartCount() {
+        cartCount = cart.reduce((total, item) => total + item.quantity, 0);
         cartCountElement.textContent = cartCount;
     }
     
-    // Product Data - Fixed (with corrected features structure)
+    function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                quantity: 1
+            });
+        }
+        
+        updateCartCount();
+        renderCartItems();
+    }
+    
+    function removeFromCart(productId) {
+        cart = cart.filter(item => item.id !== productId);
+        updateCartCount();
+        renderCartItems();
+    }
+    
+    function renderCartItems() {
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
+            cartTotal.textContent = '$0.00';
+            whatsappCheckoutBtn.style.display = 'none';
+            return;
+        }
+        
+        whatsappCheckoutBtn.style.display = 'flex';
+        
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
+        
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            
+            const cartItemElement = document.createElement('div');
+            cartItemElement.className = 'cart-item';
+            cartItemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="cart-item-info">
+                    <h4 class="cart-item-title">${item.name}</h4>
+                    <div class="cart-item-price">$${item.price.toFixed(2)} × ${item.quantity} = $${itemTotal.toFixed(2)}</div>
+                </div>
+                <button class="cart-item-remove" data-id="${item.id}">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+            
+            cartItemsContainer.appendChild(cartItemElement);
+        });
+        
+        cartTotal.textContent = `$${total.toFixed(2)}`;
+        
+        // Update WhatsApp link
+        const itemsText = cart.map(item => 
+            `- ${item.name} (${item.quantity} × $${item.price.toFixed(2)})`
+        ).join('%0A');
+        
+        whatsappCheckoutBtn.href = `https://wa.me/256788401004?text=I%20want%20to%20purchase%20the%20following%20items:%0A%0A${itemsText}%0A%0ATotal:%20$${total.toFixed(2)}`;
+        
+        // Add event listeners to remove buttons
+        document.querySelectorAll('.cart-item-remove').forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = parseInt(this.getAttribute('data-id'));
+                removeFromCart(productId);
+            });
+        });
+    }
+    
+    // Product Data
     const products = [
         {
             id: 1,
@@ -208,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     ];
     
-    // Display Products - Fixed
+    // Display Products
     const productGrid = document.querySelector('.product-grid');
     const categoryFilter = document.getElementById('category-filter');
     const sortBy = document.getElementById('sort-by');
@@ -267,13 +373,10 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             
             productGrid.appendChild(productCard);
-        });
-        
-        // Add event listeners to the new buttons
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', function(e) {
-                cartCount++;
-                updateCartCount();
+            
+            // Add event listeners to the buttons
+            productCard.querySelector('.add-to-cart').addEventListener('click', function(e) {
+                addToCart(product.id);
                 
                 // Animation effect
                 const button = e.target.closest('button');
@@ -286,10 +389,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     button.style.backgroundColor = '';
                 }, 2000);
             });
-        });
-        
-        document.querySelectorAll('.add-to-compare').forEach(button => {
-            button.addEventListener('click', toggleCompare);
+            
+            productCard.querySelector('.add-to-compare').addEventListener('click', toggleCompare);
         });
     }
     
@@ -445,30 +546,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event Listeners
     categoryFilter.addEventListener('change', filterAndSortProducts);
     sortBy.addEventListener('change', filterAndSortProducts);
-    compareBtn.addEventListener('click', showComparison);
-    clearCompareBtn.addEventListener('click', clearComparison);
-    closeModal.addEventListener('click', function() {
-        comparisonModal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    });
-    
-    // Close modal when clicking outside
-    window.addEventListener('click', function(e) {
-        if (e.target === comparisonModal) {
-            comparisonModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    });
-    
-    // WhatsApp Integration
-    const whatsappBtn = document.querySelector('.whatsapp-float');
-    whatsappBtn.addEventListener('click', function(e) {
-        // This will open WhatsApp with your number as specified in the HTML
-    });
-    
-    // Sticky Header
-    window.addEventListener('scroll', function() {
-        const header = document.querySelector('.header');
-        header.classList.toggle('sticky', window.scrollY > 0);
-    });
-});
+    compareBtn.add
