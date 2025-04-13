@@ -47,17 +47,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function performSearch() {
         const searchTerm = searchInput.value.toLowerCase();
-        if (searchTerm.trim() === '') return;
+        if (searchTerm.trim() === '') {
+            displayProducts(products);
+            return;
+        }
         
         const filteredProducts = products.filter(product => 
             product.name.toLowerCase().includes(searchTerm) ||
             product.category.toLowerCase().includes(searchTerm) ||
-            product.features.special.toLowerCase().includes(searchTerm)
+            (product.features.special && product.features.special.toLowerCase().includes(searchTerm))
         );
         
         displayProducts(filteredProducts);
         searchBar.classList.remove('active');
-        searchInput.value = '';
     }
     
     // Cart System
@@ -545,5 +547,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Event Listeners
     categoryFilter.addEventListener('change', filterAndSortProducts);
-    sortBy.addEventListener('change', filterAndSortProducts);
-    compareBtn.add
+    sortBy.addEvent
