@@ -347,6 +347,9 @@ img {
     box-shadow: var(--box-shadow);
     transition: var(--transition);
     position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .product-card:hover {
@@ -386,6 +389,9 @@ img {
 
 .product-info {
     padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .product-info h3 {
@@ -416,6 +422,7 @@ img {
     display: flex;
     justify-content: space-between;
     gap: 10px;
+    margin-top: auto;
 }
 
 .add-to-cart, .add-to-compare {
@@ -448,6 +455,19 @@ img {
 
 .add-to-compare:hover {
     background-color: #d5dbdb;
+}
+
+.add-to-compare.selected {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.no-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2rem;
+    color: var(--gray-color);
 }
 
 .compare-bar {
@@ -566,6 +586,125 @@ img {
 .comparison-feature {
     font-weight: 500;
     width: 20%;
+}
+
+/* Cart Modal */
+.cart-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1002;
+    overflow-y: auto;
+}
+
+.cart-content {
+    background-color: white;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    animation: modalFadeIn 0.3s ease;
+}
+
+.close-cart {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.8rem;
+    color: var(--gray-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.close-cart:hover {
+    color: var(--accent-color);
+}
+
+.cart-items {
+    max-height: 400px;
+    overflow-y: auto;
+    margin: 20px 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-title {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.cart-item-price {
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+.cart-item-remove {
+    color: var(--accent-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: 15px;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 20px 0;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.whatsapp-checkout {
+    background-color: #25D366;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.whatsapp-checkout:hover {
+    background-color: #128C7E;
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--gray-color);
 }
 
 /* Testimonials Section */
@@ -912,4 +1051,12 @@ img {
     .btn {
         padding: 8px 20px;
     }
-}
+    
+    .product-actions {
+        flex-direction: column;
+    }
+    
+    .add-to-cart, .add-to-compare {
+        width: 100%;
+    }
+    }
