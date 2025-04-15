@@ -3,334 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HomeTech - Premium Home Appliances</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Cheapware - Affordable Home Appliances</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Header Section -->
     <header>
-        <div class="top-bar">
-            <div class="container">
-                <div class="contact-info">
-                    <span><i class="fas fa-phone"></i> +256 788 401004</span>
-                    <span><i class="fas fa-envelope"></i> support@hometech.com</span>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="logo.png" alt="Cheapware Logo" class="logo">
+                <h1>Cheapware</h1>
+            </div>
+            <nav>
+                <div class="nav-toggle" id="navToggle">
+                    <i class="fas fa-bars"></i>
                 </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h2>Quality Home Appliances at Affordable Prices</h2>
+                <p>Upgrade your home with our wide range of appliances</p>
+                <a href="#products" class="btn">Shop Now</a>
+            </div>
+        </section>
+
+        <section class="products" id="products">
+            <div class="section-header">
+                <h2>Our Products</h2>
+                <div class="filter-container">
+                    <select id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="kitchen">Kitchen Appliances</option>
+                        <option value="cleaning">Cleaning Appliances</option>
+                        <option value="cooling">Cooling Appliances</option>
+                        <option value="electronics">Home Electronics</option>
+                    </select>
+                    <select id="priceFilter">
+                        <option value="all">All Prices</option>
+                        <option value="0-100000">Under UGX 100,000</option>
+                        <option value="100000-300000">UGX 100,000 - 300,000</option>
+                        <option value="300000-500000">UGX 300,000 - 500,000</option>
+                        <option value="500000+">Over UGX 500,000</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be loaded here via JavaScript -->
+            </div>
+        </section>
+
+        <section class="about" id="about">
+            <div class="section-header">
+                <h2>About Cheapware</h2>
+            </div>
+            <div class="about-content">
+                <p>Cheapware is your one-stop shop for affordable, high-quality home appliances in Uganda. We pride ourselves on offering the best prices without compromising on quality.</p>
+                <p>Our mission is to make modern home appliances accessible to everyone, helping you create a more comfortable and efficient home environment.</p>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="section-header">
+                <h2>Contact Us</h2>
+            </div>
+            <div class="contact-content">
+                <p>Have questions or need assistance? Reach out to us!</p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <i class="fas fa-phone"></i>
+                        <p>+256 788 401004</p>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Kampala, Uganda</p>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-clock"></i>
+                        <p>Mon-Sat: 8:00 AM - 6:00 PM</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-container">
+            <div class="cart-header">
+                <h3>Your Cart</h3>
+                <button class="close-cart" id="closeCart">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be loaded here -->
+                <p class="empty-cart-message">Your cart is empty</p>
+            </div>
+            <div class="cart-total">
+                <p>Total: <span id="cartTotal">UGX 0</span></p>
+                <button class="btn checkout-btn" id="checkoutBtn">Checkout via WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-phone"></i> +256 788 401004</p>
+                <p><i class="fas fa-map-marker-alt"></i> Kampala, Uganda</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
                 <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
         </div>
-        
-        <nav class="navbar">
-            <div class="container">
-                <a href="#" class="logo">Home<span>Tech</span></a>
-                <div class="nav-links">
-                    <a href="#" class="active">Home</a>
-                    <a href="#products">Products</a>
-                    <a href="#deals">Deals</a>
-                    <a href="#about">About</a>
-                    <a href="#contact">Contact</a>
-                </div>
-                <div class="nav-icons">
-                    <a href="#"><i class="fas fa-search" id="search-icon"></i></a>
-                    <a href="#"><i class="fas fa-user"></i></a>
-                    <a href="#"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
-                    <i class="fas fa-bars" id="menu-toggle"></i>
-                </div>
-            </div>
-            
-            <div class="search-bar" id="search-bar">
-                <div class="container">
-                    <input type="text" placeholder="Search for appliances...">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-slider">
-            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1558002038-1055907df827?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
-                <div class="container">
-                    <div class="slide-content">
-                        <h1>Premium Home Appliances</h1>
-                        <p>Upgrade your home with our latest collection of smart appliances</p>
-                        <a href="#products" class="btn">Shop Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1581093450021-4a7360e9a9e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
-                <div class="container">
-                    <div class="slide-content">
-                        <h1>Summer Sale - Up to 40% Off</h1>
-                        <p>Limited time offer on selected kitchen appliances</p>
-                        <a href="#deals" class="btn">View Deals</a>
-                    </div>
-                </div>
-            </div>
-            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1468&q=80')">
-                <div class="container">
-                    <div class="slide-content">
-                        <h1>Smart Home Solutions</h1>
-                        <p>Connect and control your appliances from anywhere</p>
-                        <a href="#products" class="btn">Explore</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="slider-controls">
-            <span class="dot active" data-slide="0"></span>
-            <span class="dot" data-slide="1"></span>
-            <span class="dot" data-slide="2"></span>
-        </div>
-    </section>
-
-    <!-- Categories Section -->
-    <section class="categories">
-        <div class="container">
-            <h2 class="section-title">Shop by Category</h2>
-            <div class="category-grid">
-                <div class="category-card">
-                    <img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Refrigerators">
-                    <div class="category-info">
-                        <h3>Refrigerators</h3>
-                        <a href="#">Shop Now <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="category-card">
-                    <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Washing Machines">
-                    <div class="category-info">
-                        <h3>Washing Machines</h3>
-                        <a href="#">Shop Now <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="category-card">
-                    <img src="https://images.unsplash.com/photo-1585730068571-f9cae5b86f16?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Air Conditioners">
-                    <div class="category-info">
-                        <h3>Air Conditioners</h3>
-                        <a href="#">Shop Now <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="category-card">
-                    <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Kitchen Appliances">
-                    <div class="category-info">
-                        <h3>Kitchen Appliances</h3>
-                        <a href="#">Shop Now <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Products Section -->
-    <section class="featured-products" id="products">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Featured Products</h2>
-                <div class="filter-options">
-                    <select id="category-filter">
-                        <option value="all">All Categories</option>
-                        <option value="refrigerator">Refrigerators</option>
-                        <option value="washing-machine">Washing Machines</option>
-                        <option value="air-conditioner">Air Conditioners</option>
-                        <option value="kitchen">Kitchen Appliances</option>
-                    </select>
-                    <select id="sort-by">
-                        <option value="default">Sort By</option>
-                        <option value="price-low">Price: Low to High</option>
-                        <option value="price-high">Price: High to Low</option>
-                        <option value="rating">Customer Rating</option>
-                    </select>
-                </div>
-            </div>
-            <div class="product-grid" id="product-grid">
-                <!-- Products will be loaded here via JavaScript -->
-            </div>
-            <div class="view-more">
-                <a href="#" class="btn">View All Products</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Special Offers Section -->
-    <section class="special-offers" id="deals">
-        <div class="container">
-            <h2 class="section-title">Special Offers</h2>
-            <div class="offer-banner">
-                <div class="offer-content">
-                    <h3>Summer Sale</h3>
-                    <h2>Up to 40% Off</h2>
-                    <p>On selected kitchen appliances. Limited time offer!</p>
-                    <a href="#" class="btn">Shop Now</a>
-                </div>
-                <div class="offer-image">
-                    <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Special Offer">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Product Comparison Modal -->
-    <div class="comparison-modal" id="comparison-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Compare Products</h2>
-            <div class="comparison-table" id="comparison-table">
-                <!-- Comparison content will be loaded here via JavaScript -->
-            </div>
-            <div class="modal-actions">
-                <button class="btn" id="clear-comparison">Clear All</button>
-                <button class="btn primary">Add to Cart</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials">
-        <div class="container">
-            <h2 class="section-title">What Our Customers Say</h2>
-            <div class="testimonial-slider">
-                <div class="testimonial active">
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p>"The refrigerator I bought from HomeTech has transformed my kitchen. It's energy efficient and has so much space!"</p>
-                    <div class="customer">
-                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah J.">
-                        <h4>Sarah J.</h4>
-                    </div>
-                </div>
-                <div class="testimonial">
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p>"Excellent customer service and fast delivery. My new washing machine works perfectly and was easy to install."</p>
-                    <div class="customer">
-                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael T.">
-                        <h4>Michael T.</h4>
-                    </div>
-                </div>
-                <div class="testimonial">
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p>"I'm extremely satisfied with my purchase. The air conditioner cools my entire house efficiently and quietly."</p>
-                    <div class="customer">
-                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Grace K.">
-                        <h4>Grace K.</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-controls">
-                <button class="prev-testimonial"><i class="fas fa-chevron-left"></i></button>
-                <button class="next-testimonial"><i class="fas fa-chevron-right"></i></button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Newsletter Section -->
-    <section class="newsletter">
-        <div class="container">
-            <div class="newsletter-content">
-                <h2>Subscribe to Our Newsletter</h2>
-                <p>Get the latest updates on new products and special offers</p>
-            </div>
-            <form class="newsletter-form">
-                <input type="email" placeholder="Enter your email address" required>
-                <button type="submit" class="btn">Subscribe</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer Section -->
-    <footer>
-        <div class="footer-top">
-            <div class="container">
-                <div class="footer-col">
-                    <h3>HomeTech</h3>
-                    <p>Your trusted partner for premium home appliances. We provide quality products with excellent customer service.</p>
-                    <div class="footer-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#products">Products</a></li>
-                        <li><a href="#deals">Special Offers</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#contact">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Customer Service</h3>
-                    <ul>
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">Order Tracking</a></li>
-                        <li><a href="#">Wishlist</a></li>
-                        <li><a href="#">Shipping Policy</a></li>
-                        <li><a href="#">Returns & Refunds</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col" id="contact">
-                    <h3>Contact Us</h3>
-                    <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Appliance Street, Kampala, Uganda</li>
-                        <li><i class="fas fa-phone"></i> +256 788 401004</li>
-                        <li><i class="fas fa-envelope"></i> support@hometech.com</li>
-                        <li><i class="fas fa-clock"></i> Mon-Sat: 8:00 AM - 6:00 PM</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div class="footer-bottom">
-            <div class="container">
-                <p>&copy; 2023 HomeTech. All Rights Reserved.</p>
-                <div class="payment-methods">
-                    <i class="fab fa-cc-visa"></i>
-                    <i class="fab fa-cc-mastercard"></i>
-                    <i class="fab fa-cc-paypal"></i>
-                    <i class="fab fa-cc-discover"></i>
-                </div>
-            </div>
+            <p>&copy; 2023 Cheapware. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- Quick View Modal -->
-    <div class="quick-view-modal" id="quick-view-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="quick-view-content" id="quick-view-content">
-                <!-- Product details will be loaded here via JavaScript -->
-            </div>
-        </div>
-    </div>
-
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/256788401004" class="whatsapp-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
     <script src="script.js"></script>
 </body>
-    </html>
+                </html>
