@@ -94,7 +94,31 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "kitchen",
             image: "6deepfryer.jpg",
             description: ""
-        }
+        },
+        {
+            id: 11,
+            title: "Tent Net",
+            price: 85000,
+            category: "bedroom",
+            image: "tentnet.jpg",
+            description: "Double sided net"
+                          },
+        {
+            id: 12,
+            title: "Duvet",
+            price: "160000",
+            category: "bedroom",
+            image: "duvet.jpg",
+            description: "1duvet, 1bed sheet, 2pillows"
+            },
+        {
+            id: 13,
+            title: "Cannon Bedsheets",
+            price: "135000",
+            category: "bedroom",
+            image: "cannon.jpg",
+            description: "1 fitted & 1 flat cannon cotton bedsheet, 5by6 & 6by6, 4 pillow cases."
+            },
     ];
 
     // Cart state
