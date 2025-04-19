@@ -223,6 +223,38 @@ document.addEventListener('DOMContentLoaded', function() {
                     image: "keyboard.jpg",
     description: "2 in 1 wireless keyboard + Mouse"
                 },
+        {
+                    id: 27 ,
+                    title: "Google stadia controller",
+                    price: 160000,
+                    category: "electronics",
+                    image: "pad.jpg",
+    description: "can be connected to android, iphones, laptops, ipad"
+                },
+{
+                    id: 28,
+                    title: "Sonashi Garmet steamer",
+                    price: 230000,
+                    category: "cleaning",
+                    image: "steamer1.jpg",
+    description: ""
+                },
+{
+                    id: 29,
+                    title: "Panasonic Garmet Steamers",
+                    price: 490000,
+                    category: "cleaning",
+                    image: "steamer2.jpg",
+    description: ""
+                },
+{
+                    id: 30,
+                    title: "Sokany. 6.5 litre stand mixer",
+                    price: 370000,
+                    category: "kitchen",
+                    image: "standmixer.jpg",
+    description: "Copper motor 10 speed 1800W"
+                }
     ];
 
     // Cart state
