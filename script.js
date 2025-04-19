@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 12,
             title: "Duvet",
-            price: "160000",
+            price: 160000,
             category: "bedroom",
             image: "duvet.jpg",
             description: "1duvet, 1bed sheet, 2pillows"
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 13,
             title: "Cannon Bedsheets",
-            price: "135000",
+            price: 135000,
             category: "bedroom",
             image: "cannon.jpg",
             description: "1 fitted & 1 flat cannon cotton bedsheet, 5by6 & 6by6, 4 pillow cases."
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {
         id: 14,
         title: "Egyptian Bedsheets",
-        price: "75000",
+        price: 75000,
         category: "bedroom",
         image: "egypt.jpg",
         description: "4 pieces Egyptian bedsheets, 5by6 & 6by6."
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 15,
             title: "Bedsheets",
-            price: "95000",
+            price: 95000,
             category: "bedroom",
             image: "bedsheets.jpg",
             description: "4 pieces, 5 by 6 & 6 by 6, 2 pillow cases & 2 flat bedsheets."
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 16,
             title: "American Bedsheets",
-            price: "135000",
+            price: 135000,
             category: "bedroom",
             image: "american.jpg",
             description: "1 fitted & 1 flat American cotton bedsheet, 5by6 & 6by6, 4 pillow cases."
