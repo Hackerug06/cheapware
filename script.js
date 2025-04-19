@@ -119,6 +119,29 @@ document.addEventListener('DOMContentLoaded', function() {
             image: "cannon.jpg",
             description: "1 fitted & 1 flat cannon cotton bedsheet, 5by6 & 6by6, 4 pillow cases."
             },
+    {
+        id: 14,
+        title: "Egyptian Bedsheets",
+        price: "75000",
+        category: "bedroom",
+        image: "egypt.jpg",
+        description: "4 pieces Egyptian bedsheets, 5by6 & 6by6."
+            },
+        {
+            id: 15,
+            title: "Bedsheets",
+            price: "95000",
+            category: "bedroom",
+            image: "bedsheets.jpg",
+            description: "4 pieces, 5 by 6 & 6 by 6, 2 pillow cases & 2 flat bedsheets."
+        },
+        {
+            id: 16,
+            title: "American Bedsheets",
+            price: "135000",
+            category: "bedroom",
+            image: "american.jpg",
+            description: "1 fitted & 1 flat American cotton bedsheet, 5by6 & 6by6, 4 pillow cases."
     ];
 
     // Cart state
