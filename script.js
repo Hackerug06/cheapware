@@ -17,67 +17,83 @@ document.addEventListener('DOMContentLoaded', function() {
     const products = [
         {
             id: 1,
-            title: "Deep Fryer",
-            price: 85000,
-            category: "kitchen",
-            image: "12Ldeepfryer.jpg",
-            description: "12Litres deep fryer."
+            title: "Large bathroom towels",
+            price: 60000,
+            category: "bathroom",
+            image: "Largetowel.jpg",
+            description: ""
         },
         {
             id: 2,
             title: "Blender",
-            price: 120000,
+            price: 150000,
             category: "kitchen",
-            image: "blender.jpg",
+            image: "Blender.jpg",
             description: "Powerful 600W blender with 4-speed settings."
         },
         {
             id: 3,
-            title: "Microwave Oven",
-            price: 450000,
+            title: "Kitchen Rack",
+            price: 250000,
             category: "kitchen",
-            image: "microwave.jpg",
-            description: "20L capacity microwave with 6 power levels."
+            image: "Rack.jpg",
+            description: ""
         },
         {
             id: 4,
-            title: "Vacuum Cleaner",
-            price: 350000,
-            category: "cleaning",
-            image: "vacuum.jpg",
-            description: "Bagless vacuum cleaner with HEPA filter."
+            title: "Ceiling Net",
+            price: 650000,
+            category: "bedroom",
+            image: "Net.jpg",
+            description: ""
         },
         {
             id: 5,
-            title: "Iron",
+            title: "Flat Iron",
             price: 75000,
-            category: "cleaning",
-            image: "iron.jpg",
+            category: "bedroom",
+            image: "flatiron.jpg",
             description: "Steam iron with adjustable temperature."
         },
         {
             id: 6,
-            title: "Stand Fan",
-            price: 150000,
+            title: "SPJ Reachargeable Stand Fan",
+            price: 250000,
             category: "cooling",
-            image: "fan.jpg",
+            image: "SPJstandfan.jpg",
             description: "3-speed oscillating stand fan."
         },
         {
             id: 7,
-            title: "Air Conditioner",
-            price: 2800000,
+            title: "Geepas Hotplate",
+            price: 120000,
+            category: "kitchen",
+            image: "hotplate.jpg",
+            description: ""
+        },
+                {
+        id: 8,
+            title: "SPJ Ceiling Fan",
+            price: 150000,
             category: "cooling",
-            image: "ac.jpg",
-            description: "1.5HP split air conditioner."
+            image: "SPJceilingfan.jpg",
+            description: ""
+},
+            {
+                          id: 9,
+            title: "SV Tower fan",
+            price: 270000,
+            category: "cooling",
+            image: "towerfan.jpg",
+            description: ""
         },
         {
-            id: 8,
-            title: "Television",
-            price: 1200000,
-            category: "electronics",
-            image: "tv.jpg",
-            description: "43-inch Smart LED TV."
+            id: 10,
+            title: "6 litre deep fryer",
+            price: 130000,
+            category: "kitchen",
+            image: "6deepfryer.jpg",
+            description: ""
         }
     ];
 
@@ -369,3 +385,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the app
     init();
 });
+    
