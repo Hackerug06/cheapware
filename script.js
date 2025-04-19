@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "bedroom",
             image: "american.jpg",
             description: "1 fitted & 1 flat American cotton bedsheet, 5by6 & 6by6, 4 pillow cases."
+        }
     ];
 
     // Cart state
