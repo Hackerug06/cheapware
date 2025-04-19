@@ -254,7 +254,31 @@ document.addEventListener('DOMContentLoaded', function() {
                     category: "kitchen",
                     image: "standmixer.jpg",
     description: "Copper motor 10 speed 1800W"
-                }
+                },
+        {
+                    id: 31 ,
+                    title: "15inch Tri-Screen Monitor",
+                    price: 1590000,
+                    category: "electronics",
+                    image: "Tri-Screen.jpg",
+    description: "Multiple OS compatible 26:9 aspect ratio Type C Display port 1920×1080 resolution Narrow bezel design Surround display/Extended display"
+                },
+{
+                    id: 32,
+                    title: "Wireless Earbuds",
+                    price: 140000,
+                    category: "electronic",
+                    image: "earbud.jpg",
+    description: "30hrs battery play time IP×5 Waterproof 22 preset equalizer AI-Enhanced calls via 2 Mics"
+                },
+{
+                    id: 33,
+                    title: "Digiwave",
+                    price: 480000,
+                    category: "kitchen",
+                    image: "Digiwave.jpg,
+    description: "6speed 1200watts"
+        }
     ];
 
     // Cart state
