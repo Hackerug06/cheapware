@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     {
         id: 17,
-        title: "Porodo",
+        title: "Porodo Smart mini dryer",
         price: 1400000,
         category: "cleaning",
         image: "Porodo.jpg",
@@ -183,6 +183,46 @@ document.addEventListener('DOMContentLoaded', function() {
         image: "projector.jpg",
         description: "Benq MX560 4000 Ansi Lumens."
         },
+                {
+                    id: 22,
+                    title: "LG Washing Machine ",
+                    price: 1950000,
+                    category: "cleaning",
+                    image: "wash.jpg",
+    description: "7kg frontloader"
+                },
+        {
+                    id: 23,
+                    title: "Noise Cancellation Headphones",
+                    price: 290000,
+                    category: "electronics",
+                    image: "headphone.jpg",
+    description: "Hybrid active noise cancellation 5hrs playtime Transparency mode."
+                },
+        {
+                    id:24 ,
+                    title: "Hisense Party Rocker",
+                    price: 470000,
+                    category: "electronics",
+                    image: "rocker.jpg",
+    description: "Bluetooth enabled Water & dust proof Rich bass"
+                },
+        {
+                    id:25 ,
+                    title: "Nutribullet Blender",
+                    price: 720000,
+                    category: "kitchen",
+                    image: "blender1.jpg",
+    description: ""
+                },
+        {
+                    id: 26,
+                    title: "Xiaomi wireless keyboard & Mouse",
+                    price: 160000,
+                    category: "electronics",
+                    image: "keyboard.jpg",
+    description: "2 in 1 wireless keyboard + Mouse"
+                },
     ];
 
     // Cart state
