@@ -17,11 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const products = [
         {
             id: 1,
-            title: "Electric Kettle",
+            title: "Deep Fryer",
             price: 85000,
             category: "kitchen",
-            image: "kettle.jpg",
-            description: "Fast-boiling 1.7L electric kettle with auto shut-off."
+            image: "12Ldeepfryer.jpg",
+            description: "12Litres deep fryer."
         },
         {
             id: 2,
