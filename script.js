@@ -142,7 +142,47 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "bedroom",
             image: "american.jpg",
             description: "1 fitted & 1 flat American cotton bedsheet 5by6 & 6by6 4 pillow cases."
-        }
+        },
+    {
+        id: 17,
+        title: "Porodo",
+        price: 1400000,
+        category: "cleaning",
+        image: "Porodo.jpg",
+        description: "1150W UV sterilization 10drying options Touch control led display stainless steel tube."
+            },
+    {
+        id: 18,
+        title: "Clipper",
+        price: 185000,
+        category: "electronics",
+        image: "clipper.jpg",
+        description: "Philips 6 in 1 clipper."
+        },
+    {
+        id: 19,
+        title: "Aquatouch Shaver",
+        price: 170000,
+        category: "electronics",
+        image: "shaver.jpg",
+        description: "Philips aquatouch shaver"
+        },
+        {
+        id: 20,
+        title: "Garmet Steamer",
+        price: 450000,
+        category: "cleaning",
+        image: "steamer.jpg",
+        description: "philip garmet steamer"
+        },
+        {
+        id: 21,
+        title: "Digital Ptojector",
+        price: 1380000,
+        category: "electronics",
+        image: "projector.jpg",
+        description: "Benq MX560 4000 Ansi Lumens."
+        },
     ];
 
     // Cart state
