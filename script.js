@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "SPJ Ceiling Fan",
             price: 150000,
             category: "cooling",
-            image: "SPJceilingfan.jpg",
+            image: "SPJceiling.jpg",
             description: ""
 },
             {
@@ -233,18 +233,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
 {
                     id: 28,
-                    title: "Sonashi Garmet steamer",
-                    price: 230000,
-                    category: "cleaning",
-                    image: "steamer1.jpg",
+                    title: "6 Litre deep fryer",
+                    price: 100000,
+                    category: "kitchen",
+                    image: "4deepfryer.jpg",
     description: ""
                 },
 {
                     id: 29,
-                    title: "Panasonic Garmet Steamers",
-                    price: 490000,
-                    category: "cleaning",
-                    image: "steamer2.jpg",
+                    title: "12 Litre deep fryer",
+                    price: 230000,
+                    category: "kitchen",
+                    image: "12deepfryer.jpg",
     description: ""
                 },
 {
@@ -276,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     title: "Digiwave",
                     price: 480000,
                     category: "kitchen",
-                    image: "Digiwave.jpg,
+                    image: "Digiwave.jpg",
     description: "6speed 1200watts"
         }
     ];
